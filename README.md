@@ -9,25 +9,6 @@ The scraper collects the following information:
 - Phone number
 - Website URL
 - Google Maps URL
-
-Data is scraped based on a provided **state name** and predefined category tags.
-
----
-
-## Default Tags
-
-By default, the scraper searches for the following categories:
-
-- Restaurants
-- Hotels
-- Things to do
-- Museums
-- Transit
-- Pharmacies
-- ATMs
-
-You can also provide a custom tag when running the script.
-
 ---
 
 ## Installation
@@ -94,72 +75,43 @@ If you encounter issues, ensure Playwright is properly installed.
 
 ## Usage
 
-The project consists of a single file:
+It accepts: One of these two commands
 
-```
-main.py
-```
+- **command** `keyword`
+  - This command takes two arguments
+  - Use when you want get all the available thing based on the keyword
+    - **arguments** `placename` `keyword`
 
-It accepts:
-
-- **1 required argument** → `state_name`
-- **1 optional argument** → `--tag` (custom category)
+- **command** `business`
+  - This command takes the one argument and two optional flags
+  - Use when you want to fetch information of a specific business
+    - **arguments** `businessname`
+      - Example: main.py `businessname`
+    - **options** `--images` `--reviews`
+    - Example: main.py business `--images` `--reviews`
+        <p>passing this flags will scrape all the reviews and images of the business (not implemented yet) </p>
 
 ---
 
-### Run with default tags
+### Run the application
 
 ```bash
-uv run main.py <state_name>
-
+# for keyword based searched
+uv run main.py keyword <placename> <keyword>
 # or
-
-python main.py <state_name>
+python main.py keyword <placename> <keyword>
 ```
 
-This will scrape all default tags for <state_name>.
-
 ---
-
-### Run with a custom tag
 
 ```bash
-uv run main.py <state_name> --tag <tag>
+# for specific business
+uv run main.py business `--images` `--reviews`
 # or
-python main.py <state_name> --tag <tag>
+python main.py business 
 ```
-
-Note:
-When you provide a custom tag, it is **added to the default tags list**, not replaced.
-
 ---
-
-## Output
-
-Results are saved inside a `results/` directory.
-
-Each tag generates a separate JSON file:
-
-```
-results/
-│── Restaurants.json
-│── Hotels.json
-│── Museums.json
-│── ...
-```
-
-Each file contains a JSON array of scraped business objects.
-
----
-
-## Concurrency
-
-The scraper uses Python’s `ThreadPoolExecutor` to scrape multiple tags concurrently.
-
-- The number of worker threads equals the number of active tags.
-- By default, that means **7 concurrent workers**.
-- If you add a custom tag, the worker count increases accordingly.
-
+### Results are saved inside a `results/` directory.
 ---
 
 ## Disclaimer
